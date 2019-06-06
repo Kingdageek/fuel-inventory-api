@@ -16,3 +16,22 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group([ 'namespace' => 'API' ], function() {
+    Route::resource('/dispensers', 'DispenserController', [
+        'except' => ['edit', 'create']
+    ]);
+
+    Route::get('/dispensers/{dispenser}/sales', 'DispenserSaleController@index');
+
+    Route::post('/dispensers/{dispenser}/sales', 'DispenserSaleController@store');
+
+    Route::resource('/tanks', 'TankController', [
+        'except' => ['edit', 'create']
+    ]);
+
+    Route::get('/tanks/{tank}/stock', 'TankStockController@index');
+
+    Route::post('/tanks/{tank}/stock', 'TankStockController@store');
+});
+
